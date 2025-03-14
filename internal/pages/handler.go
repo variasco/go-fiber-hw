@@ -15,5 +15,5 @@ func NewPagesHandler(router fiber.Router) {
 }
 
 func (handler *PagesHandler) main(c *fiber.Ctx) error {
-  return c.SendString("Pages main")
+	return c.SendString("Pages main")
 }
