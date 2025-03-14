@@ -56,6 +56,7 @@ func getInt(key string, def int) int {
 
 	integer, err := strconv.Atoi(value)
 	if err != nil {
+		log.Printf("Invalid value for %s: %s, using default: %d\n", key, value, def)
 		return def
 	}
 
