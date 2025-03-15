@@ -9,16 +9,20 @@ import (
 
 func CreateLogger(config *config.LogConfig) *slog.Logger {
 	level := parseLogLevel(config.Level)
-	opts := &slog.HandlerOptions{Level: level}
-
-	var handler slog.Handler
-	if config.Format == "console" {
-		handler = slog.NewTextHandler(os.Stdout, opts)
-	} else {
-		handler = slog.NewJSONHandler(os.Stderr, opts)
-	}
+	handler := parseLogFormat(config.Format, &slog.HandlerOptions{Level: level})
 
 	return slog.New(handler)
+}
+
+func parseLogFormat(logFormat string, opts *slog.HandlerOptions) slog.Handler {
+	switch strings.ToLower(logFormat) {
+	case "console":
+		return slog.NewTextHandler(os.Stdout, opts)
+	case "json":
+		return slog.NewJSONHandler(os.Stderr, opts)
+	default:
+		return slog.NewJSONHandler(os.Stdout, opts)
+	}
 }
 
 func parseLogLevel(level string) slog.Level {
