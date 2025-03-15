@@ -24,6 +24,7 @@ type ServerConfig struct {
 
 type LogConfig struct {
 	Format string
+	Level string
 }
 
 func LoadConfig() *Config {
@@ -41,6 +42,7 @@ func LoadConfig() *Config {
 		},
 		Log: &LogConfig{
 			Format: getString("LOG_FORMAT", "json"),
+			Level: getString("LOG_LEVEL", "info"),
 		},
 	}
 }
