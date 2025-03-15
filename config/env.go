@@ -9,8 +9,9 @@ import (
 )
 
 type Config struct {
-	Database DatabaseConfig
-	Server   ServerConfig
+	Database *DatabaseConfig
+	Server   *ServerConfig
+	Log      *LogConfig
 }
 
 type DatabaseConfig struct {
@@ -21,6 +22,10 @@ type ServerConfig struct {
 	Port int
 }
 
+type LogConfig struct {
+	Format string
+}
+
 func LoadConfig() *Config {
 	err := godotenv.Load()
 	if err != nil {
@@ -28,11 +33,14 @@ func LoadConfig() *Config {
 	}
 
 	return &Config{
-		Database: DatabaseConfig{
+		Database: &DatabaseConfig{
 			Url: getString("DB_URL", ""),
 		},
-		Server: ServerConfig{
+		Server: &ServerConfig{
 			Port: getInt("PORT", 3000),
+		},
+		Log: &LogConfig{
+			Format: getString("LOG_FORMAT", "json"),
 		},
 	}
 }
