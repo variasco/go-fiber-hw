@@ -1,0 +1,19 @@
+package pages
+
+import "variasco/go-fiber-hw/views/layout"
+import "variasco/go-fiber-hw/views/components"
+
+type MainProps struct {
+	Tags []components.Tag
+}
+
+templ Main(props MainProps) {
+	@layout.Layout(layout.LayoutProps{
+		Title:           "Новости | Главная",
+		MetaDescription: "Читай все актуальные новости на нашем сайте",
+	}) {
+		@layout.Header()
+		@components.TagList(components.TagListProps{Tags: props.Tags})
+		@layout.Footer()
+	}
+}

@@ -1,0 +1,109 @@
+package layout
+
+templ Header() {
+	@headerStyles()
+	<header class="container header">
+		<nav class="menu">
+			<a href="#" class="menu__link menu__link_main">Новости</a>
+			<a href="#" class="menu__link">Категории</a>
+			<a href="#" class="menu__link">Контакты</a>
+		</nav>
+		<div class="header__right">
+			<div class="global-search" onclick="this.querySelector('.global-search__input').focus()">
+				<input name="search" class="global-search__input" placeholder="Найти новость"/>
+				<img src="/public/icons/search.svg"/>
+			</div>
+			<div class="header__login">
+				<a href="#" class="menu__link">Вход</a>
+				<a href="#" class="menu__link">Регистрация</a>
+			</div>
+		</div>
+	</header>
+}
+
+templ headerStyles() {
+	<style>
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-top: 45px;
+      margin-bottom: 45px;
+    }
+
+    .menu {
+      display: flex;
+      gap: 45px;
+      align-items: baseline;
+    }
+
+    .menu__link {
+      display: block;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: 8px;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: color var(--animation-time);
+
+      &:focus-visible {
+        outline: var(--border_focus);
+      }
+
+      &:hover {
+        color: var(--text-secondary);
+      }
+    }
+
+    .menu__link_main {
+      color: var(--color-main);
+      font-size: 22px;
+
+      &:hover {
+        color: var(--color-main_hover);
+      }
+    }
+
+    .header__login {
+      display: flex;
+      gap: 5px;
+    }
+
+    .header__right {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .global-search {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      width: 360px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background-color: var(--bg-secondary);
+      cursor: text;
+    }
+
+    .global-search__input {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-size: 12px;
+      color: var(--text-main);
+      background-color: transparent;
+
+      &::placeholder {
+        color: var(--text-secondary);
+      }
+
+      &:focus::placeholder {
+        color: transparent;
+      }
+    }
+  </style>
+}

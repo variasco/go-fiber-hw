@@ -1,6 +1,10 @@
 package home
 
 import (
+	"variasco/go-fiber-hw/pkg/tadapter"
+	"variasco/go-fiber-hw/views/components"
+	"variasco/go-fiber-hw/views/pages"
+
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -8,26 +12,17 @@ type HomeHandler struct {
 	router fiber.Router
 }
 
-type Data struct {
-	Tags      []Tag
-	Names     []string
-	AdminName string
+var mockData = pages.MainProps{
+	Tags: []components.Tag{
+		{ID: 1, Name: "#Еда", Enum: "food"},
+		{ID: 2, Name: "#Животные", Enum: "animals"},
+		{ID: 3, Name: "#Машины", Enum: "cars"},
+		{ID: 4, Name: "#Спорт", Enum: "sport"},
+		{ID: 5, Name: "#Музыка", Enum: "music"},
+		{ID: 6, Name: "#Технологии", Enum: "tech"},
+		{ID: 7, Name: "#Прочее", Enum: "other"},
+	},
 }
-
-type Tag struct {
-	ID   int
-	Name string
-}
-
-var data = Data{Tags: []Tag{
-	{ID: 1, Name: "#Еда"},
-	{ID: 2, Name: "#Животные"},
-	{ID: 3, Name: "#Машины"},
-	{ID: 4, Name: "#Спорт"},
-	{ID: 5, Name: "#Музыка"},
-	{ID: 6, Name: "#Технологии"},
-	{ID: 7, Name: "#Прочее"},
-}}
 
 func NewHomeHandler(router fiber.Router) {
 	handler := &HomeHandler{
@@ -38,5 +33,5 @@ func NewHomeHandler(router fiber.Router) {
 }
 
 func (handler *HomeHandler) main(c *fiber.Ctx) error {
-	return c.Render("base", data)
+	return tadapter.Render(c, pages.Main(mockData))
 }
