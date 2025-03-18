@@ -1,0 +1,36 @@
+:root {
+  --color-main: #fc4308;
+  --color-main_hover: #fc4308bf;
+
+  --bg-main: #ffffff;
+  --bg-secondary: #f5f5f5;
+
+  --text-main: #3e3232;
+  --text-secondary: #3e3232bf;
+  --text-black: #000000;
+  --text-semi-black: #000000bf;
+
+  --border_focus: 2px solid #222222;
+
+  --animation-time: 0.2s;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  line-height: 100%;
+}
+
+.container {
+  max-width: 1552px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
