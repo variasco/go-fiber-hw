@@ -13,5 +13,7 @@ templ Main(props MainProps) {
 		MetaDescription: "Читай все актуальные новости на нашем сайте",
 	}) {
 		@layout.Header()
+		@components.TagList(components.TagListProps{Tags: props.Tags})
+		@layout.Footer()
 	}
 }

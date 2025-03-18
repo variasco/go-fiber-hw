@@ -14,13 +14,13 @@ type HomeHandler struct {
 
 var mockData = pages.MainProps{
 	Tags: []components.Tag{
-		{ID: 1, Name: "#Еда"},
-		{ID: 2, Name: "#Животные"},
-		{ID: 3, Name: "#Машины"},
-		{ID: 4, Name: "#Спорт"},
-		{ID: 5, Name: "#Музыка"},
-		{ID: 6, Name: "#Технологии"},
-		{ID: 7, Name: "#Прочее"},
+		{ID: 1, Name: "#Еда", Enum: "food"},
+		{ID: 2, Name: "#Животные", Enum: "animals"},
+		{ID: 3, Name: "#Машины", Enum: "cars"},
+		{ID: 4, Name: "#Спорт", Enum: "sport"},
+		{ID: 5, Name: "#Музыка", Enum: "music"},
+		{ID: 6, Name: "#Технологии", Enum: "tech"},
+		{ID: 7, Name: "#Прочее", Enum: "other"},
 	},
 }
 
