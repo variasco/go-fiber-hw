@@ -1,12 +1,15 @@
 package pages
 
-import "variasco/go-fiber-hw/views/layout"
-import "variasco/go-fiber-hw/views/components"
+import (
+	"variasco/go-fiber-hw/views/components"
+	"variasco/go-fiber-hw/views/layout"
+)
 
 type MainProps struct {
 	Tags []components.Tag
 }
 
+// All data is temporary mocked
 templ Main(props MainProps) {
 	@layout.Layout(layout.LayoutProps{
 		Title:           "Новости | Главная",
@@ -14,6 +17,25 @@ templ Main(props MainProps) {
 	}) {
 		@layout.Header()
 		@components.TagList(components.TagListProps{Tags: props.Tags})
+		<div class="container" style="margin-top: 60px">
+			@components.BannerCard(components.BannerCardProps{
+				Header:      "Как безопасно водить",
+				Description: "Длинный текст про то, как можно безопасно водить автомобиль. Длинный текст про то, как можно безопасно водить автомобиль. Длинный текст про то, как можно безопасно водить автомобиль. Длинный текст про то, как можно безопасно водить автомобиль. Длинный текст про то, как можно безопасно водить автомобиль.",
+				Img:         "car.jpg",
+				ImgAlt:      "White car with blue lights",
+			})
+		</div>
+		<div class="container" style="margin-top: 60px">
+			@components.NewsCard(components.NewsCardProps{
+				Header:      "Открытие сезона байдарок",
+				Description: "Сегодня был открыт сезон путешествия на байдарках, где вы можете поучаствовать в специальном соревновании ... и много много много много слов",
+				Img:         "kayak.jpg",
+				ImgAlt:      "Woman on the kayak",
+				AuthorImg:   "michael_arshinov.jpg",
+				AuthorName:  "Михаил Аршинов",
+				NewsDate:    "18-08-2025",
+			})
+		</div>
 		@layout.Footer()
 	}
 }

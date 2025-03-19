@@ -1,0 +1,204 @@
+package components
+
+import (
+	"log"
+	"time"
+)
+
+type NewsCardProps struct {
+	Header      string
+	Description string
+	Img         string
+	ImgAlt      string
+	AuthorImg   string
+	AuthorName  string
+	NewsDate    string
+}
+
+const (
+	isoDateLayout    = "02-01-2006"
+	monthLayout      = "January"
+	dayAndYearLayout = "2, 2006"
+)
+
+templ NewsCard(props NewsCardProps) {
+	@newsCardStyles()
+	<div class="news-card">
+		<img class="news-card__image" src={ "/public/images/" + props.Img } alt={ props.ImgAlt }/>
+		<h3 class="news-card__header" title={ props.Header }>{ props.Header }</h3>
+		<div class="news-card__text-wrapper">
+			<p class="news-card__text" title={ props.Description }>{ props.Description }</p>
+		</div>
+		<div class="news-card__author-chip">
+			<div class="author-chip__content">
+				<div class="author-chip__image" style={ "background-image: url(/public/images/" + props.AuthorImg + ")" }></div>
+				<div class="author-chip__info">
+					<p class="author-chip__name">{ props.AuthorName }</p>
+					<p class="author-chip__date" title={ getFormattedDate(props.NewsDate) }>{ getFormattedDate(props.NewsDate) }</p>
+				</div>
+			</div>
+			<div class="author-chip__bookmark">
+				<img src="/public/icons/bookmark.svg" alt="Add to bookmark icon-button"/>
+				<span class="bookmark__button"></span>
+			</div>
+		</div>
+	</div>
+}
+
+templ newsCardStyles() {
+	<style>
+    .news-card {
+      width: 360px;
+      box-shadow: 0 0 32px 0 #00000012;
+      border-radius: 12px;
+      padding: 10px;
+      background-color: var(--bg-main);
+    }
+
+    .news-card__image {
+      display: block;
+      width: 100%;
+      height: 190px;
+      border-radius: 12px;
+    }
+
+    .news-card__header {
+      font-size: 16px;
+      line-height: 100%;
+      font-weight: 500;
+      color: var(--text-main);
+      padding: 16px 6px;
+
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .news-card__text-wrapper {
+      padding: 0 6px 16px;
+      overflow: hidden;
+    }
+
+    .news-card__text {
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0.25px;
+      color: var(--text-secondary);
+      
+      
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .news-card__author-chip {
+      padding: 14px 16px;
+      border-radius: 12px;
+      background-color: var(--bg-secondary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .author-chip__content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .author-chip__image {
+			background-color: var(--bg-image);
+      background-position: center;
+      background-size: cover;
+      height: 44px;
+      width: 44px;
+      border-radius: 12px;
+    }
+
+    .author-chip__info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .author-chip__name {
+      color: var(--text-main);
+      font-size: 14px;
+      line-height: 22px;
+      font-weight: 500;
+      letter-spacing: 0.1px;
+    }
+
+    .author-chip__date {
+      color: var(--text-secondary);
+      font-size: 12px;
+      line-height: 18px;
+      letter-spacing: 0.25px;
+      font-weight: 400;
+    }
+
+    .author-chip__bookmark {
+      position: relative;
+    }
+
+    .bookmark__button {
+      background: transparent;
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      cursor: pointer;
+
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+}
+
+func getRuMonth(enMonth string) string {
+	switch enMonth {
+	case "January":
+		return "Январь"
+	case "February":
+		return "Февраль"
+	case "March":
+		return "Март"
+	case "April":
+		return "Апрель"
+	case "May":
+		return "Май"
+	case "June":
+		return "Июнь"
+	case "July":
+		return "Июль"
+	case "August":
+		return "Август"
+	case "September":
+		return "Сентябрь"
+	case "October":
+		return "Октябрь"
+	case "November":
+		return "Ноябрь"
+	case "December":
+		return "Декабрь"
+	default:
+		return ""
+	}
+}
+
+func getFormattedDate(isoDate string) string {
+	date, err := time.Parse(isoDateLayout, isoDate)
+	if err != nil {
+		log.Println("Error parsing date", err)
+		return "Неверная дата"
+	}
+
+	month := getRuMonth(date.Format(monthLayout))
+	dayAndYear := date.Format(dayAndYearLayout)
+
+	return month + " " + dayAndYear
+}
