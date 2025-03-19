@@ -167,6 +167,8 @@ func getRuMonth(enMonth string) string {
 		return "Февраль"
 	case "March":
 		return "Март"
+	case "April":
+		return "Апрель"
 	case "May":
 		return "Май"
 	case "June":
@@ -192,7 +194,7 @@ func getFormattedDate(isoDate string) string {
 	date, err := time.Parse(isoDateLayout, isoDate)
 	if err != nil {
 		log.Println("Error parsing date", err)
-		return ""
+		return "Неверная дата"
 	}
 
 	month := getRuMonth(date.Format(monthLayout))
