@@ -1,0 +1,67 @@
+package components
+
+type BannerCardProps struct {
+	Header      string
+	Description string
+	Img         string
+	ImgAlt      string
+}
+
+templ BannerCard(props BannerCardProps) {
+	@bannerCardStyles()
+	<div class="banner-card">
+		<img src={ "/public/images/" + props.Img } alt={ props.ImgAlt } class="banner-card__image"/>
+		<div class="banner-card__content">
+			<h3 class="banner-card__header">{ props.Header }</h3>
+			<p class="banner-card__text" title={ props.Description }>{ props.Description }</p>
+		</div>
+	</div>
+}
+
+templ bannerCardStyles() {
+	<style>
+    .banner-card {
+      position: relative;
+      width: 360px;
+      height: 452px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .banner-card__image {
+      background-color: var(--bg-image);
+      display: block;
+    }
+
+    .banner-card__content {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 16px;
+      background: #ffffffbf;
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+    }
+
+    .banner-card__header {
+      font-size: 25px;
+      color: var(--text-black);
+    }
+
+    .banner-card__text {
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: 0.25px;
+      color: var(--text-semi-black);
+
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
+}
