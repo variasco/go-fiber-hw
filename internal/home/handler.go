@@ -8,6 +8,10 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+type HomeHandlerDeps struct {
+	Router fiber.Router
+}
+
 type HomeHandler struct {
 	router fiber.Router
 }
@@ -24,9 +28,9 @@ var mockData = pages.MainProps{
 	},
 }
 
-func NewHomeHandler(router fiber.Router) {
+func NewHomeHandler(deps HomeHandlerDeps) {
 	handler := &HomeHandler{
-		router: router,
+		router: deps.Router,
 	}
 
 	handler.router.Get("/", handler.main)

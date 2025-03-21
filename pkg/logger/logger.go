@@ -1,41 +1,50 @@
 package logger
 
 import (
-	"log/slog"
 	"os"
 	"strings"
 	"variasco/go-fiber-hw/config"
+
+	"github.com/rs/zerolog"
 )
 
-func CreateLogger(config *config.LogConfig) *slog.Logger {
+func NewLogger(config *config.LogConfig) *zerolog.Logger {
 	level := parseLogLevel(config.Level)
-	handler := parseLogFormat(config.Format, &slog.HandlerOptions{Level: level})
+	zerolog.SetGlobalLevel(level)
+	logger := parseLogFormat(config.Format)
 
-	return slog.New(handler)
+	return &logger
 }
 
-func parseLogFormat(logFormat string, opts *slog.HandlerOptions) slog.Handler {
+func parseLogFormat(logFormat string) zerolog.Logger {
 	switch strings.ToLower(logFormat) {
 	case "console":
-		return slog.NewTextHandler(os.Stdout, opts)
+		consoleWriter := zerolog.ConsoleWriter{Out: os.Stdout}
+		return zerolog.New(consoleWriter).With().Timestamp().Logger()
 	case "json":
-		return slog.NewJSONHandler(os.Stderr, opts)
+		return zerolog.New(os.Stdout).With().Timestamp().Logger()
 	default:
-		return slog.NewJSONHandler(os.Stdout, opts)
+		return zerolog.New(os.Stdout).With().Timestamp().Logger()
 	}
 }
 
-func parseLogLevel(level string) slog.Level {
+func parseLogLevel(level string) zerolog.Level {
 	switch strings.ToLower(level) {
-	case "debug":
-		return slog.LevelDebug
-	case "info":
-		return slog.LevelInfo
-	case "warn":
-		return slog.LevelWarn
-	case "error":
-		return slog.LevelError
+	case zerolog.LevelTraceValue:
+		return zerolog.TraceLevel
+	case zerolog.LevelDebugValue:
+		return zerolog.DebugLevel
+	case zerolog.LevelInfoValue:
+		return zerolog.InfoLevel
+	case zerolog.LevelWarnValue:
+		return zerolog.WarnLevel
+	case zerolog.LevelErrorValue:
+		return zerolog.ErrorLevel
+	case zerolog.LevelFatalValue:
+		return zerolog.FatalLevel
+	case zerolog.LevelPanicValue:
+		return zerolog.PanicLevel
 	default:
-		return slog.LevelInfo
+		return zerolog.Disabled
 	}
 }
