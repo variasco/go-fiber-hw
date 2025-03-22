@@ -28,6 +28,10 @@
 
   --badge-red: var(--color-main);
 
+  --notification-success: #3da374;
+  --notification-error: #d15858;
+  --notification-info: #5888d1;
+
   --border-focus: 2px solid #222222;
 
   --animation-time: 0.2s;

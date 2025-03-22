@@ -23,8 +23,13 @@ func main() {
 
 	app.Static("/public", "public")
 
-	home.NewHandler(home.HomeHandlerDeps{Router: app})
-	auth.NewHandler(auth.AuthHandlerDeps{Router: app})
+	home.NewHandler(home.HomeHandlerDeps{
+		Router: app,
+	})
+	auth.NewHandler(auth.AuthHandlerDeps{
+		Router: app,
+		Logger: logger,
+	})
 
 	app.Listen(fmt.Sprintf(": %d", conf.Server.Port))
 }
