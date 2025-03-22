@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"variasco/go-fiber-hw/config"
+	"variasco/go-fiber-hw/internal/auth"
 	"variasco/go-fiber-hw/internal/home"
 	log "variasco/go-fiber-hw/pkg/logger"
 
@@ -22,7 +23,13 @@ func main() {
 
 	app.Static("/public", "public")
 
-	home.NewHomeHandler(home.HomeHandlerDeps{Router: app})
+	home.NewHandler(home.HomeHandlerDeps{
+		Router: app,
+	})
+	auth.NewHandler(auth.AuthHandlerDeps{
+		Router: app,
+		Logger: logger,
+	})
 
 	app.Listen(fmt.Sprintf(": %d", conf.Server.Port))
 }

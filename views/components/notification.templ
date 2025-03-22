@@ -1,0 +1,91 @@
+package components
+
+type NotificationType = string
+
+type NotificationProps struct {
+	Messages []string
+	Type     NotificationType
+}
+
+const (
+	NotificationSuccess NotificationType = "success"
+	NotificationError   NotificationType = "error"
+	NotificationInfo    NotificationType = "info"
+)
+
+templ Notification(props NotificationProps) {
+	@notificationStyles()
+	<div
+		class={
+			"notification",
+			templ.KV("notification_success", props.Type == NotificationSuccess),
+			templ.KV("notification_error", props.Type == NotificationError),
+			templ.KV("notification_info", props.Type == NotificationInfo),
+		}
+	>
+		for _, message := range props.Messages {
+			<p>{ message }</p>
+		}
+	</div>
+}
+
+templ notificationStyles() {
+	<style>
+    .notification {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px;
+      border-radius: 20px;
+      font-size: 16px;
+      line-height: 100%;
+      color: var(--text-white);
+      background-color: var(--notification-info);
+    }
+
+    .notification_success {
+      background-color: var(--notification-success);
+    }
+
+    .notification_error {
+      background-color: var(--notification-error);
+    }
+
+    .notification_info {
+      background-color: var(--notification-info);
+    }
+
+    .htmx-settling .notification {
+      opacity: 0;
+      transform: translateY(-10px);
+      animation: fadeIn var(--animation-time) ease-out forwards;
+    }
+
+    .htmx-swapping .notification {
+      opacity: 1;
+      animation: fadeOut var(--animation-time) ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+    }
+  </style>
+}

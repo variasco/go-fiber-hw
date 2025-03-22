@@ -1,0 +1,63 @@
+package components
+
+type ButtonProps struct {
+	Class    string
+	Type     string
+	Disabled bool
+	Attrs    templ.Attributes
+}
+
+templ Button(props ButtonProps) {
+	@buttonStyles()
+	<button
+		class={ "button", templ.KV(props.Class, props.Class != "") }
+		disabled?={ props.Disabled }
+		if props.Type != "" {
+			type={ props.Type }
+		}
+		{ props.Attrs... }
+	>
+		{ children... }
+	</button>
+}
+
+templ buttonStyles() {
+	<style>
+    .button {
+      position: relative;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      padding: 10px 16px;
+      border-radius: 12px;
+      background-color: var(--button-bg_primary);
+
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      letter-spacing: 0px;
+      white-space: nowrap;
+      color: var(--text-white);
+
+      transition-duration: var(--animation-time);
+      transition-property: background-color;
+
+      &:focus-visible {
+        outline: var(--border-focus);
+      }
+
+      &:hover {
+        background-color: var(--button-bg_hover);
+      }
+
+      &:active {
+        background-color: var(--button-bg_active);
+      }
+
+      &:disabled {
+        background-color: var(--button-bg_disabled);
+        cursor: default;
+      }
+    }
+  </style>
+}

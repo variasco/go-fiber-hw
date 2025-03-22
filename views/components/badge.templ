@@ -1,0 +1,19 @@
+package components
+
+
+templ Badge() {
+	@badgeStyles()
+	<span class="badge"></span>
+}
+
+templ badgeStyles() {
+	<style>
+    .badge {
+      display: inline-block;
+      width: 4px;
+      height: 10px;
+      border-radius: 12px;
+      background-color: var(--badge-red);
+    }
+  </style>
+}

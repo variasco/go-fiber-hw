@@ -1,0 +1,47 @@
+package components
+
+import "fmt"
+
+type LoaderProps struct {
+	Class string
+	Size  int
+}
+
+templ Loader(props LoaderProps) {
+	@loaderStyles()
+	<span
+		class={ "loader", templ.KV(props.Class, props.Class != "") }
+		if props.Size != 0 {
+			style={ fmt.Sprintf("--w:%dpx;--h:%dpx", props.Size, props.Size) }
+		}
+	></span>
+}
+
+templ loaderStyles() {
+	<style>
+    .loader {
+      --w: 25px;
+			--h: 25px;
+			position: absolute;
+			left: calc(50% - var(--w) / 2);
+			top: calc(50% - var(--h) / 2);
+			width: var(--w);
+			height: var(--h);
+			border-radius: 50%;
+			display: none;
+			border-top: 3px solid #FFF;
+			border-right: 3px solid transparent;
+			box-sizing: border-box;
+			animation: rotation 1s linear infinite;
+    }
+
+		@keyframes rotation {
+			0% {
+				transform: rotate(0deg);
+			}
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+  </style>
+}

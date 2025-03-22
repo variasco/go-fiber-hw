@@ -1,0 +1,14 @@
+package pages
+
+import "variasco/go-fiber-hw/views/layout"
+import "variasco/go-fiber-hw/views/widgets"
+
+templ Register() {
+	@layout.Layout(layout.LayoutProps{
+		Title: "Новости | Регистрация",
+	}) {
+		@layout.Header()
+		@widgets.RegisterFrom()
+		@layout.Footer()
+	}
+}

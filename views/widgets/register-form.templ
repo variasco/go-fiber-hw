@@ -1,0 +1,98 @@
+package widgets
+
+import "variasco/go-fiber-hw/views/components"
+
+templ RegisterFrom() {
+	@registerFromStyles()
+	<div class="register-form__container">
+		<form
+			class="register-form"
+			hx-post="/register"
+			hx-trigger="submit"
+			hx-target="#register-result"
+			hx-swap="innerHTML swap:0.2s settle:0.2s"
+			hx-on::before-request="document.getElementById('register-form__button')?.setAttribute('disabled', '')"
+			hx-on::after-request="document.getElementById('register-form__button')?.removeAttribute('disabled')"
+		>
+			<h4 class="register-form__title mb-40">
+				@components.Badge()
+				Регистрация на сайте
+			</h4>
+			<div class="register-form__inputs mb-50">
+				@components.Input(components.InputProps{
+					Name:  "name",
+					Label: "Имя",
+				})
+				@components.Input(components.InputProps{
+					Name:  "email",
+					Label: "Email",
+				})
+				@components.Input(components.InputProps{
+					Name:  "password",
+					Label: "Пароль",
+					Type:  "password",
+				})
+			</div>
+			@components.Button(components.ButtonProps{
+				Type: "submit",
+				Attrs: templ.Attributes{
+					"id": "register-form__button",
+				},
+			}) {
+				<span class="register-form__button-text">Зарегистрироваться</span>
+				@components.Loader(components.LoaderProps{})
+			}
+		</form>
+		<div class="register-form__result" id="register-result" onclick="this.innerHTML=''"></div>
+	</div>
+}
+
+templ registerFromStyles() {
+	<style>
+    .register-form__container {
+      height: calc(100vh - var(--header-height) - var(--footer-height));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .register-form {
+      width: 490px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .register-form__title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 100%;
+      color: var(--text-main);
+    }
+
+    .register-form__inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      width: 100%;
+    }
+
+    .register-form__result {
+      position: absolute;
+      bottom: 30px;
+      left: 30px;
+    }
+
+    .htmx-request .register-form__button-text {
+      color: transparent;
+    }
+
+    .htmx-request .loader {
+			display: inline-block;
+		}
+  </style>
+}
