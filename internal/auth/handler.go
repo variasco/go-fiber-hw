@@ -50,7 +50,7 @@ func (handler *AuthHandler) registerByForm(c *fiber.Ctx) error {
 	)
 
 	if len(errors.Errors) != 0 {
-		handler.logger.Info().Msgf("Validation errors: %v", errors.Errors)
+		handler.logger.Warn().Msgf("Validation errors: %v", errors.Errors)
 
 		return tadapter.Render(c, components.Notification(components.NotificationProps{
 			Messages: validator.FormatErrors(errors),

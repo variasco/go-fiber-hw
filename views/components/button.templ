@@ -1,18 +1,21 @@
 package components
 
 type ButtonProps struct {
+	Class    string
 	Type     string
 	Disabled bool
+	Attrs    templ.Attributes
 }
 
 templ Button(props ButtonProps) {
 	@buttonStyles()
 	<button
-		class="button"
+		class={ "button", templ.KV(props.Class, props.Class != "") }
 		disabled?={ props.Disabled }
 		if props.Type != "" {
 			type={ props.Type }
 		}
+		{ props.Attrs... }
 	>
 		{ children... }
 	</button>
@@ -21,6 +24,7 @@ templ Button(props ButtonProps) {
 templ buttonStyles() {
 	<style>
     .button {
+      position: relative;
       cursor: pointer;
       border: none;
       outline: none;
