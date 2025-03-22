@@ -1,0 +1,69 @@
+package widgets
+
+import "variasco/go-fiber-hw/views/components"
+
+templ RegisterFrom() {
+	@registerFromStyles()
+	<div class="register-form__container">
+		<form class="register-form">
+			<h4 class="register-form__title mb-40">
+				@components.Badge()
+				Регистрация на сайте
+			</h4>
+			<div class="register-form__inputs mb-50">
+				@components.Input(components.InputProps{
+					Name:  "name",
+					Label: "Имя",
+				})
+				@components.Input(components.InputProps{
+					Name:  "email",
+					Label: "Email",
+				})
+				@components.Input(components.InputProps{
+					Name:  "password",
+					Label: "Пароль",
+					Type:  "password",
+				})
+			</div>
+			@components.Button(components.ButtonProps{Type: "submit"}) {
+				Зарегистрироваться 
+			}
+		</form>
+	</div>
+}
+
+templ registerFromStyles() {
+	<style>
+    .register-form__container {
+      height: calc(100vh - var(--header-height) - var(--footer-height));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .register-form {
+      width: 490px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .register-form__title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 100%;
+      color: var(--text-main);
+    }
+
+    .register-form__inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      width: 100%;
+    }
+  </style>
+}

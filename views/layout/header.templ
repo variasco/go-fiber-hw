@@ -4,7 +4,7 @@ templ Header() {
 	@headerStyles()
 	<header class="container header">
 		<nav class="menu">
-			<a href="#" class="menu__link menu__link_main">Новости</a>
+			<a href="/" class="menu__link menu__link_main">Новости</a>
 			<a href="#" class="menu__link">Категории</a>
 			<a href="#" class="menu__link">Контакты</a>
 		</nav>
@@ -15,7 +15,7 @@ templ Header() {
 			</div>
 			<div class="header__login">
 				<a href="#" class="menu__link">Вход</a>
-				<a href="#" class="menu__link">Регистрация</a>
+				<a href="/register" class="menu__link">Регистрация</a>
 			</div>
 		</div>
 	</header>
@@ -50,7 +50,7 @@ templ headerStyles() {
       transition: color var(--animation-time);
 
       &:focus-visible {
-        outline: var(--border_focus);
+        outline: var(--border-focus);
       }
 
       &:hover {

@@ -1,0 +1,86 @@
+package components
+
+type InputProps struct {
+	Class       string
+	Name        string
+	Placeholder string
+	Label       string
+	Error       string
+	Type        string
+	Id          string
+	Attrs       templ.Attributes
+}
+
+templ Input(props InputProps) {
+	@inputStyles()
+	<div class="input__container">
+		if props.Label != "" {
+			<label
+				title={ props.Label }
+				class="input__label line-clamp-1"
+				if props.Id != "" {
+					for={ props.Id }
+				}
+			>{ props.Label }</label>
+		}
+		<input
+			class={ "input", templ.KV(props.Class, props.Class != "") }
+			if props.Name != "" {
+				name={ props.Name }
+			}
+			if props.Placeholder != "" {
+				placeholder={ props.Placeholder }
+			}
+			if props.Type != "" {
+				type={ props.Type }
+			}
+			if props.Id != "" {
+				id={ props.Id }
+			}
+			{ props.Attrs... }
+		/>
+	</div>
+}
+
+templ inputStyles() {
+	<style>
+    .input {
+      border: none;
+      outline: none;
+      
+      padding: 16px;
+      border-radius: 12px;
+      background-color: var(--bg-secondary);
+
+      font-size: 14px;
+      line-height: 100%;
+      letter-spacing: 0px;
+      font-weight: 400;
+      color: var(--text-main);
+
+      &::placeholder {
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      &:focus::placeholder {
+        color: transparent;
+      }
+    }
+
+    .input__container{
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input__label {
+      margin-left: 5px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 100%;
+      letter-spacing: 0px;
+      color: var(--text-main);
+    }
+  </style>
+}

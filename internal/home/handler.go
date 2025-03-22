@@ -28,7 +28,7 @@ var mockData = pages.MainProps{
 	},
 }
 
-func NewHomeHandler(deps HomeHandlerDeps) {
+func NewHandler(deps HomeHandlerDeps) {
 	handler := &HomeHandler{
 		router: deps.Router,
 	}

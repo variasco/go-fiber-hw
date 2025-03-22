@@ -1,0 +1,12 @@
+package pages
+
+import "variasco/go-fiber-hw/views/layout"
+import "variasco/go-fiber-hw/views/widgets"
+
+templ Register() {
+	@layout.Layout(layout.LayoutProps{}) {
+		@layout.Header()
+		@widgets.RegisterFrom()
+		@layout.Footer()
+	}
+}
