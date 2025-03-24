@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"variasco/go-fiber-hw/config"
-	"variasco/go-fiber-hw/internal/auth"
 	"variasco/go-fiber-hw/internal/home"
+	"variasco/go-fiber-hw/internal/user"
 	log "variasco/go-fiber-hw/pkg/logger"
 
 	"github.com/gofiber/contrib/fiberzerolog"
@@ -26,7 +26,7 @@ func main() {
 	home.NewHandler(home.HomeHandlerDeps{
 		Router: app,
 	})
-	auth.NewHandler(auth.AuthHandlerDeps{
+	user.NewHandler(user.UserHandlerDeps{
 		Router: app,
 		Logger: logger,
 	})

@@ -1,4 +1,4 @@
-package auth
+package user
 
 import (
 	"variasco/go-fiber-hw/pkg/tadapter"
@@ -12,18 +12,18 @@ import (
 	"github.com/rs/zerolog"
 )
 
-type AuthHandlerDeps struct {
+type UserHandlerDeps struct {
 	Router fiber.Router
 	Logger *zerolog.Logger
 }
 
-type AuthHandler struct {
+type UserHandler struct {
 	router fiber.Router
 	logger *zerolog.Logger
 }
 
-func NewHandler(deps AuthHandlerDeps) {
-	handler := &AuthHandler{
+func NewHandler(deps UserHandlerDeps) {
+	handler := &UserHandler{
 		router: deps.Router,
 		logger: deps.Logger,
 	}
@@ -32,11 +32,11 @@ func NewHandler(deps AuthHandlerDeps) {
 	handler.router.Post("/register", handler.registerByForm)
 }
 
-func (handler *AuthHandler) register(c *fiber.Ctx) error {
+func (handler *UserHandler) register(c *fiber.Ctx) error {
 	return tadapter.Render(c, pages.Register())
 }
 
-func (handler *AuthHandler) registerByForm(c *fiber.Ctx) error {
+func (handler *UserHandler) registerByForm(c *fiber.Ctx) error {
 	form := RegisterForm{
 		Name:     c.FormValue("name"),
 		Email:    c.FormValue("email"),
