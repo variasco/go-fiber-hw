@@ -8,6 +8,7 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/rs/zerolog"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserRepository struct {
@@ -27,7 +28,10 @@ func (repo *UserRepository) create(form RegisterForm) (*User, error) {
 	          VALUES (@name, @email, @password, @created_at) 
 	          RETURNING id, name, email, password, created_at;`
 
-	hashedPassword := form.Password
+	hashedPassword, err := hashPassword(form.Password)
+	if err != nil {
+		return nil, fmt.Errorf("не удалось захэшировать пароль:%w", err)
+	}
 	args := pgx.NamedArgs{
 		"name":       form.Name,
 		"email":      form.Email,
@@ -36,7 +40,7 @@ func (repo *UserRepository) create(form RegisterForm) (*User, error) {
 	}
 
 	var user User
-	err := repo.dbpool.QueryRow(context.Background(), query, args).Scan(
+	err = repo.dbpool.QueryRow(context.Background(), query, args).Scan(
 		&user.Id, &user.Name, &user.Email, &user.Password, &user.CreatedAt,
 	)
 	if err != nil {
@@ -44,4 +48,14 @@ func (repo *UserRepository) create(form RegisterForm) (*User, error) {
 	}
 
 	return &user, nil
+}
+
+func hashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return string(bytes), err
+}
+
+func checkPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
 }
