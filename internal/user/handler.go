@@ -62,18 +62,29 @@ func (handler *UserHandler) registerByForm(c *fiber.Ctx) error {
 		}))
 	}
 
-	user, err := handler.repository.create(form)
+	foundUser, err := handler.repository.getByEmail(form.Email)
+	if err != nil {
+		handler.logger.Warn().Err(err).Send()
+	}
+	if foundUser != nil {
+		return tadapter.Render(c, components.Notification(components.NotificationProps{
+			Messages: []string{"Пользователь уже существует"},
+			Type:     components.NotificationError,
+		}))
+	}
+
+	err = handler.repository.create(form)
 	if err != nil {
 		handler.logger.Error().Err(err).Send()
 
 		return tadapter.Render(c, components.Notification(components.NotificationProps{
-			Messages: []string{"Ошибка при создании пользователя. Попробуйте позднее"},
+			Messages: []string{"Ошибка при создании пользователя"},
 			Type:     components.NotificationError,
 		}))
 	}
 
 	return tadapter.Render(c, components.Notification(components.NotificationProps{
-		Messages: []string{fmt.Sprintf("Пользователь: %s успешно создан", user.Email)},
+		Messages: []string{fmt.Sprintf("Пользователь: %s успешно создан", form.Email)},
 		Type:     components.NotificationSuccess,
 	}))
 }
