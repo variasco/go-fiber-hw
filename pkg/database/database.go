@@ -12,7 +12,7 @@ func CreateDbPool(config *config.DatabaseConfig, logger *zerolog.Logger) *pgxpoo
 	dbpool, err := pgxpool.New(context.Background(), config.Url)
 
 	if err != nil {
-		logger.Fatal().Msg("Не удалось подключиться к базе данных")
+		logger.Fatal().Err(err).Msg("Не удалось подключиться к базе данных")
 		panic(err)
 	}
 
