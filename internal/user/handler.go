@@ -1,6 +1,7 @@
 package user
 
 import (
+	"fmt"
 	"variasco/go-fiber-hw/pkg/tadapter"
 	"variasco/go-fiber-hw/pkg/validator"
 	"variasco/go-fiber-hw/views/components"
@@ -13,19 +14,22 @@ import (
 )
 
 type UserHandlerDeps struct {
-	Router fiber.Router
-	Logger *zerolog.Logger
+	Router     fiber.Router
+	Logger     *zerolog.Logger
+	Repository *UserRepository
 }
 
 type UserHandler struct {
-	router fiber.Router
-	logger *zerolog.Logger
+	router     fiber.Router
+	logger     *zerolog.Logger
+	repository *UserRepository
 }
 
 func NewHandler(deps UserHandlerDeps) {
 	handler := &UserHandler{
-		router: deps.Router,
-		logger: deps.Logger,
+		router:     deps.Router,
+		logger:     deps.Logger,
+		repository: deps.Repository,
 	}
 
 	handler.router.Get("/register", handler.register)
@@ -58,6 +62,18 @@ func (handler *UserHandler) registerByForm(c *fiber.Ctx) error {
 		}))
 	}
 
-	// TODO
-	return nil
+	user, err := handler.repository.create(form)
+	if err != nil {
+		handler.logger.Error().Err(err).Send()
+
+		return tadapter.Render(c, components.Notification(components.NotificationProps{
+			Messages: []string{"Ошибка при создании пользователя. Попробуйте позднее"},
+			Type:     components.NotificationError,
+		}))
+	}
+
+	return tadapter.Render(c, components.Notification(components.NotificationProps{
+		Messages: []string{fmt.Sprintf("Пользователь: %s успешно создан", user.Email)},
+		Type:     components.NotificationSuccess,
+	}))
 }
