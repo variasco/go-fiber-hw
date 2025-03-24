@@ -54,7 +54,9 @@ func (repo *UserRepository) getByEmail(email string) (*User, error) {
 	err := repo.dbpool.QueryRow(context.Background(), query, args).Scan(
 		&user.Id, &user.Name, &user.Email, &user.Password, &user.CreatedAt,
 	)
-	if err != nil {
+	if err == pgx.ErrNoRows {
+		return nil, err
+	} else if err != nil {
 		return nil, fmt.Errorf("не удалось получить пользователя: %w", err)
 	}
 
